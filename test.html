@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>የዕውቀት ፈተና - ሙከራ</title>
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #eff6ff;
+      --accent: #0ea5e9;
+      --success-bg: #dcfce7;
+      --success-border: #16a34a;
+      --success-text: #14532d;
+      --error-bg: #fee2e2;
+      --error-border: #dc2626;
+      --error-text: #7f1d1d;
+      --trial-bg: #fef3c7;
+      --trial-border: #f59e0b;
+      --trial-text: #78350f;
+      --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 50%, #fdf4ff 100%);
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Noto Sans Ethiopic", system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    .app-card {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .trial-badge {
+      display: inline-block;
+      background: var(--trial-bg);
+      color: var(--trial-text);
+      border: 1px solid var(--trial-border);
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-left: 6px;
+      margin-bottom: 10px;
+    }
+
+    .creator-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid var(--primary);
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .creator-title {
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 2px;
+    }
+
+    .creator-detail {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .center-box {
+      text-align: center;
+    }
+
+    h1 {
+      margin: 4px 0 8px;
+      font-size: 1.85rem;
+      color: var(--primary-dark);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .stat-pill {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .setup-group {
+      margin-bottom: 18px;
+    }
+
+    .setup-label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-size: 0.98rem;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-main);
+      font-size: 1rem;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+      background: #ffffff;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #ffffff;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
+      transition: transform 0.15s ease, filter 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-light);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      font-size: 0.95rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.3s ease;
+    }
+
+    .cat-badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .question-box {
+      font-size: 1.22rem;
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-main);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      color: var(--success-text) !important;
+      font-weight: 700;
+    }
+
+    .option-btn.wrong {
+      background: var(--error-bg) !important;
+      border-color: var(--error-border) !important;
+      color: var(--error-text) !important;
+    }
+
+    .feedback-box {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      display: none;
+    }
+
+    .feedback-box.ok {
+      display: block;
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+    }
+
+    .feedback-box.bad {
+      display: block;
+      background: var(--error-bg);
+      color: var(--error-text);
+      border: 1px solid var(--error-border);
+    }
+
+    .next-wrap {
+      margin-top: 18px;
+      display: none;
+    }
+
+    .next-wrap.show {
+      display: block;
+    }
+
+    .score-ring {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 14px 0 6px;
+    }
+
+    .percent-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .msg-text {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 22px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="app-card">
+    <!-- መነሻ ገጽ / ሙከራ መግቢያ -->
+    <section id="start-screen">
+      <div class="center-box">
+        <span class="hero-tag">4 ምድቦች • Random</span>
+        <span class="trial-badge">ሙከራ</span>
+        <h1>የዕውቀት ፈተና</h1>
+        <p class="subtitle">ምድብ እና የጥያቄ ብዛት መርጠው እውቀትዎን በጥያቄና መልስ ይፈትሹ!</p>
+      </div>
+
+      <div class="creator-card">
+        <div class="creator-title">መግቢያ — ሙከራ</div>
+        <div class="creator-detail">አዘጋጅ፡ ኪነጥበብ</div>
+        <div class="creator-detail">ስልክ፡ 0921138738</div>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-pill">
+          <div class="stat-num" id="total-q-count">200</div>
+          <div class="stat-label">ጠቅላላ ጥያቄ</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-num">4</div>
+          <div class="stat-label">ምድቦች</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-num">Random</div>
+          <div class="stat-label">ያልተደጋገመ</div>
+        </div>
+      </div>
+
+      <div class="setup-group">
+        <label class="setup-label" for="category-select">የጥያቄ ምድብ ይምረጡ፦</label>
+        <select id="category-select">
+          <option value="all">ሁሉም ምድቦች (ድብልቅ)</option>
+          <option value="history">የኢትዮጵያ ታሪክ እና ጂኦግራፊ</option>
+          <option value="science">ሳይንስ፣ ጤና እና ተፈጥሮ</option>
+          <option value="world">ዓለም አቀፍ ዕውቀት እና ባህል</option>
+          <option value="tech">ቴክኖሎጂ፣ ሎጂክ እና ሒሳብ</option>
+        </select>
+      </div>
+
+      <div class="setup-group">
+        <label class="setup-label" for="count-select">በአንድ ዙር የሚጠየቁት ብዛት፦</label>
+        <select id="count-select">
+          <option value="10">10 ጥያቄዎች</option>
+          <option value="20">20 ጥያቄዎች</option>
+          <option value="50">50 ጥያቄዎች</option>
+          <option value="200">200 ጥያቄዎች</option>
+          <option value="500">እስከ 500 ጥያቄዎች</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" onclick="startQuiz()">ውድድሩን ጀምር</button>
+    </section>
+
+    <!-- የጥያቄ ገጽ -->
+    <section id="quiz-screen" class="hidden">
+      <div class="top-bar">
+        <span id="q-counter">ጥያቄ 1 / 10</span>
+        <span id="score-counter">ነጥብ: 0</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <span class="cat-badge" id="q-category">ምድብ</span>
+      <div class="question-box" id="q-text"></div>
+      <div class="options-grid" id="options-grid"></div>
+
+      <div class="feedback-box" id="feedback-box"></div>
+
+      <div class="next-wrap" id="next-wrap">
+        <button class="btn-primary" id="next-btn" onclick="nextQuestion()">ቀጣይ ጥያቄ</button>
+      </div>
+    </section>
+
+    <!-- የውጤት ገጽ -->
+    <section id="result-screen" class="hidden center-box">
+      <span class="hero-tag">ውድድሩ ተጠናቋል</span>
+      <h2>የዙሩ ማጠቃለያ</h2>
+      <div class="score-ring" id="result-score">0 / 10</div>
+      <div class="percent-text" id="result-percent">0%</div>
+      <p class="msg-text" id="result-msg"></p>
+      <button class="btn-primary" onclick="startQuiz()">በዚሁ ምድብ እንደገና ሞክር</button>
+      <button class="btn-secondary" onclick="goHome()">ወደ መነሻ ገጽ ተመለስ</button>
+    </section>
+  </main>
+
+  <script>
+    // =========================================================================
+    // የጥያቄዎች ዝርዝር (አሁን 200 ጥያቄዎች፤ ተጨማሪ ጥያቄዎችን በክፍል እንጨምራለን)
+    // =========================================================================
+    const allQuestions = [
+      // -----------------------------------------------------------------------
+      // 1. የኢትዮጵያ ታሪክ እና ጂኦግራፊ (50 ጥያቄዎች)
+      // -----------------------------------------------------------------------
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ ዋና ከተማ ማን ናት?", options: ["ባህር ዳር", "አዲስ አበባ", "ሐዋሳ", "መቀሌ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአድዋ ድል የተቀዳጀው በየትኛው ዓ.ም ነው?", options: ["1880 ዓ.ም", "1888 ዓ.ም", "1896 ዓ.ም", "1933 ዓ.ም"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ ከፍተኛው ተራራ ማን ይባላል?", options: ["ራስ ዳሸን", "ባቱ ተራራ", "እንጦጦ", "ዝቋላ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የዓባይ ወንዝ መነሻ የሆነው ሐይቅ የትኛው ነው?", options: ["ሐይቅ ዝዋይ", "ሐይቅ ጣና", "ሐይቅ አባያ", "ሐይቅ ላንጋኖ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የላሊበላ ውቅር አብያተ ክርስቲያናት የት ይገኛሉ?", options: ["አክሱም", "ላሊበላ", "ጎንደር", "ሐረር"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአክሱም ሥልጣኔ በዋናነት በየትኛው ክልል ይገኛል?", options: ["ትግራይ", "ሶማሌ", "ጋምቤላ", "ቤንሻንጉል ጉሙዝ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የጎንደር ቤተ መንግሥት ግንቦች በብዛት በየትኛው ንጉሠ ነገሥት ዘመን ተገነቡ?", options: ["ዓፄ ቴዎድሮስ", "ዓፄ ፋሲለደስ", "ዓፄ ዮሐንስ", "ዳግማዊ ምኒልክ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የብሔራዊ ባንክ የገንዘብ ዓይነት ምን ይባላል?", options: ["ዶላር", "ብር", "ዩሮ", "ሺሊንግ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ የስምጥ ሸለቆ (Rift Valley) ውስጥ የሚገኝ ሐይቅ የትኛው ነው?", options: ["ሐይቅ ጣና", "ሐይቅ ዝዋይ", "ሐይቅ ሐይቅ", "ሐይቅ አሸንጌ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የመጀመሪያው የኢትዮጵያ ባቡር መንገድ ከየት ወደ የት ነበር?", options: ["አዲስ አበባ - ጅቡቲ", "ባህር ዳር - ጎንደር", "መቀሌ - አክሱም", "ጂማ - ሐዋሳ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ ረጅሙ ወንዝ የትኛው ነው?", options: ["አዋሽ ወንዝ", "ዋቢ ሸበሌ ወንዝ", "ኦሞ ወንዝ", "ባሮ ወንዝ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የሐረር ጀጎል ግንብ በዓለም ቅርስነት የተመዘገበው በየትኛው ከተማ ይገኛል?", options: ["ድሬዳዋ", "ሐረር", "ጅጅጋ", "አዳማ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ በባሕር ጠለል በጣም ዝቅተኛ የሆነው አካባቢ የትኛው ነው?", options: ["የዳናኪል ዲፕሬሽን", "ባሌ ተራሮች", "ሰሜን ተራሮች", "ወላይታ ሶዶ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአፍሪካ ሕብረት ዋና መሥሪያ ቤት የት ይገኛል?", options: ["ናይሮቢ", "ካይሮ", "አዲስ አበባ", "አክራ"], answer: 2 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የግዕዝ ፊደላት በባህላዊ አቆጣጠር ስንት «ቤት» (ቅርጽ) አላቸው?", options: ["5", "7", "8", "10"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ የቡና መገኛ ተብሎ በሰፊው የሚጠቀሰው አካባቢ የትኛው ነው?", options: ["ካፋ", "አፋር", "ኦጋዴን", "ራስ ዳሸን"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የሶፍ ዑመር ዋሻ በየትኛው ክልል ይገኛል?", options: ["አማራ", "ኦሮሚያ", "ትግራይ", "ሲዳማ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ አቆጣጠር ከግሪጎሪያን አቆጣጠር በግምት ስንት ዓመታት ወደ ኋላ ይቀራል?", options: ["2-3 ዓመት", "7-8 ዓመት", "12-13 ዓመት", "20 ዓመት"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአዋሽ ወንዝ በዋናነት ወደ የትኛው አቅጣጫ ይፈሳል?", options: ["ወደ ሰሜን ምዕራብ", "ወደ ሰሜን ምሥራቅ (አፋር አካባቢ)", "ወደ ደቡብ ምዕራብ", "ወደ ምዕራብ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የታላቁ የኢትዮጵያ ህዳሴ ግድብ በየትኛው ወንዝ ላይ ተገነባ?", options: ["አዋሽ", "ዓባይ (ብሉ ናይል)", "ተከዜ", "ጊቤ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የባሌ ተራሮች ብሔራዊ ፓርክ በየትኛው ክልል ይገኛል?", options: ["ኦሮሚያ", "ትግራይ", "አፋር", "ደቡብ ኢትዮጵያ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ ከፍተኛ ዝናብ የሚያገኙ አካባቢዎች በብዛት ምን ይባላሉ?", options: ["ቆላ", "ደጋ እና ወይና ደጋ", "በረሃ", "ውርጭ ብቻ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የሰሜን ተራሮች ብሔራዊ ፓርክ በየትኛው ክልል ይገኛል?", options: ["አማራ", "ኦሮሚያ", "ሶማሌ", "ጋምቤላ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ ሕዝብ ብዛት በዓለም ላይ ከየትኛው ምድብ ውስጥ ይመደባል?", options: ["በጣም ትንሽ", "ከፍተኛ ከሆኑት አንዱ", "ከአምስት በታች", "የማይታወቅ"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "ሐይቅ አባያ እና ሐይቅ ጫሞ በየትኛው የሀገሪቱ ክፍል ይገኛሉ?", options: ["በደቡብ", "በሰሜን", "በምሥራቅ", "በምዕራብ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የተከዜ ወንዝ የዓባይ ወንዝ ገባር ወይም የናይል ተፋሰስ አካል ነው?", options: ["አዎ፣ የናይል ተፋሰስ አካል ነው", "አይደለም፣ ወደ ሕንድ ውቅያኖስ ይሄዳል", "በውስጥ ሐይቅ ይቀራል", "በባህር ውስጥ ይጠፋል"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የአየር ንብረት በባህላዊ መንገድ በስንት ዋና ዋና ክፍሎች ይከፈላል?", options: ["2", "5", "8", "12"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የእንጦጦ ተራራ በየትኛው ከተማ አቅራቢያ ይገኛል?", options: ["አዲስ አበባ", "ባህር ዳር", "መቀሌ", "ጂማ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የባንዲራ ቀለማት ከላይ ወደ ታች ምን ምን ናቸው?", options: ["አረንጓዴ፣ ቢጫ፣ ቀይ", "ቀይ፣ ቢጫ፣ አረንጓዴ", "ሰማያዊ፣ ቢጫ፣ ቀይ", "አረንጓዴ፣ ነጭ፣ ቀይ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የብሉ ናይል ፏፏቴ (ጢስ ዓባይ) በየትኛው ወንዝ ላይ ይገኛል?", options: ["ዓባይ", "አዋሽ", "ኦሞ", "ባሮ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ በጣም ሞቃታማ እና ደረቅ ከሆኑ አካባቢዎች አንዱ የትኛው ነው?", options: ["የአፋር አካባቢ", "ደብረ ማርቆስ", "ጎባ", "አምቦ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የጊቤ ወንዝ በዋናነት ወደ የትኛው ሐይቅ ወይም አካባቢ ይፈሳል?", options: ["ወደ ቱርካና ሐይቅ (በኦሞ-ጊቤ ተፋሰስ)", "ወደ ጣና ሐይቅ", "ወደ ቀይ ባህር", "ወደ አዋሽ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ አየር መንገድ (Ethiopian Airlines) ዋና ማዕከል የት ነው?", options: ["ቦሌ ዓለም አቀፍ አውሮፕላን ማረፊያ (አዲስ አበባ)", "ናይሮቢ", "ካይሮ", "ዱባይ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአክሱም ሐውልቶች በምን ዓይነት ድንጋይ የተቀረጹ ናቸው?", options: ["ግራናይት (Granite)", "አሸዋ ድንጋይ ብቻ", "እንጨት", "ሸክላ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ የስምጥ ሸለቆ ውስጥ ከሚገኙ ሐይቆች አንዱ የትኛው ነው?", options: ["ሐይቅ ላንጋኖ", "ሐይቅ ጣና", "ሐይቅ አሸንጌ", "ሐይቅ ሐይቅ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የጥቁር አንበሳ ሆስፒታል የት ይገኛል?", options: ["አዲስ አበባ", "ባህር ዳር", "ሐዋሳ", "ደሴ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ «ወይና ደጋ» የሚባለው የአየር ንብረት ምን ባህሪ አለው?", options: ["መካከለኛ ሙቀትና ለምነቱ ተስማሚ የሆነ", "በጣም ቀዝቃዛ እና በረዶማ", "በጣም ሞቃታማ እና ደረቅ", "ከፍተኛ ውርጭ ብቻ ያለው"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ ድንበር ከሚጋሩ ሀገራት አንዷ ማን ናት?", options: ["ኬንያ", "ናይጄሪያ", "ግሪክ", "ብራዚል"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የቡና ሥነ-ሥርዓት ስንት ዙር (ፈላ) የተለመደ ነው?", options: ["አንድ ብቻ", "ሦስት (አቦል፣ ቶና፣ በረካ)", "ስድስት", "አሥር"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የመስቀል በዓል በኢትዮጵያ አቆጣጠር መቼ ይከበራል?", options: ["መስከረም 17", "ጥር 11", "ታኅሣሥ 29", "ግንቦት 20"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የጥምቀት በዓል በኢትዮጵያ አቆጣጠር መቼ ይከበራል?", options: ["መስከረም 17", "ጥር 11", "መጋቢት 10", "ነሐሴ 15"], answer: 1 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የብሔራዊ ሙዚየም የት ይገኛል?", options: ["አዲስ አበባ", "ላሊበላ", "አክሱም", "ጎንደር"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኦሞ ታችኛው ሸለቆ በዓለም ቅርስነት መታወቁ በዋናነት ከምን ጋር ይያያዛል?", options: ["ከጥንታዊ ቅሪተ አካላት እና ባህል", "ከትላልቅ ባቡሮች", "ከበረዶ ተራሮች", "ከባህር ወደብ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ «ቆላ» የሚባለው አካባቢ በአብዛኛው እንዴት ነው?", options: ["ዝቅተኛ ስፍራ እና ሞቃታማ", "በጣም ከፍተኛ እና ቀዝቃዛ", "ሁልጊዜ በረዶ የሚጥልበት", "ሐይቅ ብቻ ያለው"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ ፖስታ አገልግሎት የመጀመሪያ ቴምብሮች በየትኛው ንጉሠ ነገሥት ዘመን ወጡ?", options: ["ዳግማዊ ምኒልክ", "ዓፄ ቴዎድሮስ", "ዓፄ ፋሲለደስ", "ዓፄ ዮሐንስ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የመጀመሪያ ዩኒቨርሲቲ (አሁን አዲስ አበባ ዩኒቨርሲቲ) መቼ ተመሠረተ?", options: ["1942 ዓ.ም (1950 እ.ኤ.አ)", "1888 ዓ.ም", "1900 ዓ.ም", "1975 ዓ.ም"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የባህር ዳር ከተማ በየትኛው ሐይቅ ዳርቻ ትገኛለች?", options: ["ሐይቅ ጣና", "ሐይቅ ዝዋይ", "ሐይቅ ላንጋኖ", "ሐይቅ አባያ"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የአዲስ አበባን ዕድገትና የዛፍ ተከላ በማስፋፋት በታሪክ የሚጠቀሱት እነማን ናቸው?", options: ["ዳግማዊ ምኒልክ እና እቴጌ ጣይቱ", "ዓፄ ዘርዓ ያዕቆብ", "ዓፄ ሱስንዮስ", "ዓፄ ልብነ ድንግል"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "በኢትዮጵያ ዋና የግብርና ወቅት የሆነው «ክረምት» በየትኞቹ ወራት ይታያል?", options: ["ሰኔ፣ ሐምሌ፣ ነሐሴ", "ታኅሣሥ፣ ጥር፣ የካቲት", "መጋቢት፣ ሚያዝያ፣ ግንቦት", "ጥቅምት፣ ኅዳር"], answer: 0 },
+      { cat: "history", catName: "ታሪክ እና ጂኦግራፊ", q: "የኢትዮጵያ የመጀመሪያ ህገ መንግሥት በየትኛው ዓ.ም ታወጀ?", options: ["1923 ዓ.ም (1931 እ.ኤ.አ)", "1880 ዓ.ም", "1967 ዓ.ም", "1987 ዓ.ም"], answer: 0 },
+
+      // -----------------------------------------------------------------------
+      // 2. ሳይንስ፣ ጤና እና ተፈጥሮ (50 ጥያቄዎች)
+      // -----------------------------------------------------------------------
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የፀሐይ ሥርዓት ውስጥ ለፀሐይ በጣም ቅርብ የሆነችው ፕላኔት ማን ናት?", options: ["ማርስ", "ቬነስ", "ሜርኩሪ", "ሳተርን"], answer: 2 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ የደም ዝውውር ዋና ማዕከል የሆነው የሰውነት ክፍል ምንድን ነው?", options: ["ሳንባ", "ጉበት", "ልብ", "ኩላሊት"], answer: 2 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ዕፅዋት ምግባቸውን የሚያዘጋጁበት ሂደት ምን ይባላል?", options: ["መተንፈስ", "ፎቶሲንተሲስ", "መፍላት", "መትነን"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ከፀሐይ ብርሃን በብዛት የሚገኘው ቫይታሚን የትኛው ነው?", options: ["ቫይታሚን ኤ", "ቫይታሚን ሲ", "ቫይታሚን ዲ", "ቫይታሚን ኬ"], answer: 2 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የውሃ ኬሚካላዊ ቀመር (Formula) ምንድን ነው?", options: ["CO2", "H2O", "O2", "NaCl"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ የመተንፈሻ ዋና አካል የትኛው ነው?", options: ["ሳንባ", "ጨጓራ", "ስፕሊን", "ፊኛ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በተለምዶ «ቀይ ፕላኔት» (Red Planet) ተብላ የምትጠራው ፕላኔት ማን ናት?", options: ["ጁፒተር", "ማርስ", "ዩራነስ", "ኔፕቱን"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ ጤናማ አጥንትና ጥርስ እንዲኖረው የሚረዳ ዋና ማዕድን የትኛው ነው?", options: ["ካልሲየም", "ብረት", "አዮዲን", "ዚንክ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ውሃ በመደበኛ የባህር ጠለል ግፊት በስንት ዲግሪ ሴልሺየስ ይፈላል?", options: ["0°C", "50°C", "100°C", "150°C"], answer: 2 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ውሃ በመደበኛ ሁኔታ በስንት ዲግሪ ሴልሺየስ ይቀዘቅዛል (በረዶ ይሆናል)?", options: ["0°C", "10°C", "-10°C", "37°C"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ ጤናማ የሰውነት ሙቀት መጠን በግምት ስንት ዲግሪ ሴልሺየስ ነው?", options: ["32°C", "37°C", "42°C", "25°C"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በአየር ውስጥ በብዛት የሚገኘው ጋዝ የትኛው ነው?", options: ["ኦክስጅን", "ናይትሮጅን", "ካርቦን ዳይኦክሳይድ", "ሃይድሮጅን"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የደምን ቆሻሻ በማጣራት ሽንት የሚያመርተው አካል የትኛው ነው?", options: ["ኩላሊት", "ሳንባ", "ልብ", "ቆዳ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ የማሰብ፣ የማስታወስ እና የመቆጣጠር ማዕከል የትኛው ነው?", options: ["አንጎል", "ጉበት", "ጨጓራ", "ጡንቻ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የፀሐይ ሥርዓት ውስጥ በጣም ትልቋ ፕላኔት ማን ናት?", options: ["ሳተርን", "ጁፒተር", "ምድር", "ቬነስ"], answer: 1 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በደም ውስጥ ኦክስጅንን የሚሸከመው ዋና ንጥረ ነገር ምን ይባላል?", options: ["ሂሞግሎቢን", "ኢንሱሊን", "ኬራቲን", "ኮላጅን"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ድምፅ በምን ውስጥ በፍጥነት ይጓዛል?", options: ["በጠጣር ነገር (እንደ ብረት)", "በቫኩም (ባዶ ስፍራ)", "በአየር ብቻ", "በጭራሽ አይጓዝም"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በቫኩም (ባዶ ቦታ) ውስጥ መጓዝ የሚችለው የትኛው ነው?", options: ["ብርሃን", "የድምፅ ሞገድ", "ውሃ", "አየር"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የእንስሳት ሁለት ዋና ክፍሎች በአመጋገብ ባህሪያቸው ሲታዩ ምን ይባላሉ?", options: ["ዕፅዋት በል (Herbivores) እና ሥጋ በል (Carnivores)", "አእዋፍ እና ዓሳዎች", "አጥቢ እና ተሳቢ", "አበባ እና ቅጠል"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ንጹሕ ውሃ መጠጣት እና እጅን በሳሙና መታጠብ ከምን ይከላከላል?", options: ["ከተላላፊ በሽታዎች እና ኢንፌክሽኖች", "ከፀሐይ መውጣት", "ከምድር መዞር", "ከመብረቅ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የምድር ተፈጥሯዊ ሳተላይት ማን ናት?", options: ["ጨረቃ", "ማርስ", "ፀሐይ", "ቬነስ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በአዋቂ የሰው ልጅ ውስጥ በአማካይ ስንት አጥንቶች ይገኛሉ?", options: ["206", "100", "350", "50"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ፎቶሲንተሲስ ሲከሰት ዕፅዋት ከአየር የሚወስዱት ጋዝ የትኛው ነው?", options: ["ካርቦን ዳይኦክሳይድ (CO2)", "ናይትሮጅን", "ሂሊየም", "አርጎን"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በዓይን ውስጥ ብርሃን የሚያልፍበትና ምስል ለመቅረጽ የሚረዳው ክፍል ምን ይባላል?", options: ["ሌንስ / ሬቲና", "ጆሮ ታምቡር", "አፍንጫ", "ምላስ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የጨው (Table Salt) ዋና ኬሚካላዊ ስም ምንድን ነው?", options: ["ሶዲየም ክሎራይድ (NaCl)", "ካልሲየም ካርቦኔት", "ፖታሲየም", "አይረን"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰው ልጅ የስሜት ሕዋሳት ስንት ናቸው?", options: ["5 (ማየት፣ መስማት፣ ማሽተት፣ መቅመስ፣ መንካት)", "2", "3", "10"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በተፈጥሮ የውሃ ዑደት (Water Cycle) ውስጥ የውሃ እንፋሎት ወደ ደመና የሚቀየርበት ሂደት ምን ይባላል?", options: ["ኮንደንሴሽን (Condensation)", "መቀዝቀዝ ብቻ", "መፍላት", "ማጣራት"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "ቫይታሚን ሲ በብዛት ከሚገኝባቸው ምግቦች አንዱ የትኛው ነው?", options: ["ብርቱካን እና ሎሚ", "ደረቅ እንጨት", "ድንጋይ", "ዘይት ብቻ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በሰውነት ውስጥ የምግብ መፈጨት የሚጀምረው በየትኛው ክፍል ነው?", options: ["በአፍ", "በኩላሊት", "በሳንባ", "በልብ"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "የሰውነትን የደም ስኳር ለመቆጣጠር የሚረዳ ሆርሞን የትኛው ነው?", options: ["ኢንሱሊን", "አድሬናሊን", "ሜላቶኒን", "ታይሮክሲን"], answer: 0 },
+      { cat: "science", catName: "ሳይንስ እና ተፈጥሮ", q: "በአካባቢያችን ዛፎችን መትከል እና ደን መጠበቅ ለምን ይጠቅማል?", options: ["አፈርን ለመጠበ
